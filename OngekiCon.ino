@@ -146,12 +146,13 @@ void loop()
       previousPosition = currentPosition;
     }
 
-    buttonPressed[] = {leftA, leftB, leftC, rightA, rightB, rightC, leftSide, rightSide};
+    bool buttonPressed[] = {leftA, leftB, leftC, rightA, rightB, rightC, leftSide, rightSide};
 
     for (int i = 0; i < 8; i++)
     {
-      if
-        recentState[i] != buttonPressed[i]
+      if (recentState[i] != buttonPressed[i])
+      {
+        if (buttonPressed[i] == true)
         {
           if (buttonPressed[i] == true)
           {
