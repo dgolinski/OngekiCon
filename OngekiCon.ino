@@ -42,7 +42,7 @@ int currentPosition = 0;
 const int Pin_Lever = A0;
 
 // Button Setup
-bool buttonPressed[] = {false, false, false, false, false, false, false, false};
+bool buttonsPressed[] = {false, false, false, false, false, false, false, false};
 bool recentState[] = {false, false, false, false, false, false, false, false};
 const char keyBinds[] = {'s', 'd', 'f', 'j', 'k', 'l', 'a', ';'};
 
@@ -87,21 +87,23 @@ void loop()
 
   //  Lever Calibration
   bool leverCalibrated = false;
-
+  int leverMaxLeft;
+  int leverMaxRight;
+  
   while (leverCalibrated == false)
   { //Reminder: Test to see if the value returned is an integer or a float
     leftA = !digitalRead(Pin_LeftA);
     if (leftA == true)
     {
       lever = analogRead(Pin_Lever);
-      int leverMaxLeft = lever;
+      leverMaxLeft = lever;
       while (leverCalibrated == false)
       {
         rightA = !digitalRead(Pin_RightA);
         if (rightA == true)
         {
           lever = analogRead(Pin_Lever);
-          int leverMaxRight = lever;
+          leverMaxRight = lever;
           leverCalibrated = true;
         }
       }
@@ -142,19 +144,19 @@ void loop()
 
     if (previousPosition != currentPosition)
     {
-      Mouse.move(currentPosition - previousPosition);
+      Mouse.move((currentPosition - previousPosition),0,0);
       previousPosition = currentPosition;
     }
 
-    bool buttonPressed[] = {leftA, leftB, leftC, rightA, rightB, rightC, leftSide, rightSide};
+    bool buttonsPressed[] = {leftA, leftB, leftC, rightA, rightB, rightC, leftSide, rightSide};
 
     for (int i = 0; i < 8; i++)
     {
-      if (recentState[i] != buttonPressed[i])
+      if (recentState[i] != buttonsPressed[i])
       {
-        if (buttonPressed[i] == true)
+        if (buttonsPressed[i] == true)
         {
-          if (buttonPressed[i] == true)
+          if (buttonsPressed[i] == true)
           {
             Keyboard.press(keyBinds[i]);
           }
@@ -164,6 +166,7 @@ void loop()
           }
         }
     }
-    recentState[] = buttonPressed[];
+    memcpy( recentState, buttonsPressed, 5 );
   }
+}
 }
