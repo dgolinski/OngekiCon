@@ -166,7 +166,7 @@ void loop()
           }
         }
     }
-    memcpy( recentState, buttonsPressed, 5 );
+    memcpy( recentState, buttonsPressed, 8 );
   }
 }
 }
