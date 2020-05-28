@@ -133,17 +133,19 @@ void loop() {
 
   //  Lever Calibration
   boolean leverCalibrated = false;
+  int leverMaxLeft;
+  int leverMaxRight;
 
-  while leverCalibrated == false{    //Reminder: Test to see if the value returned is an integer or a float
+  while (leverCalibrated == false){    //Reminder: Test to see if the value returned is an integer or a float
   leftA = !digitalRead(Pin_LeftA);
-    if leftA == true{
+    if (leftA == true){
     lever = analogRead(Pin_Lever);
-      int leverMaxLeft = lever;
-      while leverCalibrated == false{
+      leverMaxLeft = lever;
+      while (leverCalibrated == false){
       rightA = !digitalRead(Pin_RightA);
-        if rightA == true{
+        if (rightA == true){
         lever = analogRead(Pin_Lever);
-          int leverMaxRight = lever;
+          leverMaxRight = lever;
           leverCalibrated = true;
         }
       }
@@ -176,18 +178,18 @@ void loop() {
 
     currentPosition = positionA + positionB;
 
-    if previousPosition != currentPosition{
-      Mouse.move(currentPosition - previousPosition);
+    if (previousPosition != currentPosition){
+      Mouse.move((currentPosition - previousPosition),0,0);
       previousPosition = currentPosition;
     }
 
-    buttonPressed[] = {leftA, leftB, leftC, rightA, rightB, rightC, leftSide, rightSide};
+    bool buttonPressed[] = {leftA, leftB, leftC, rightA, rightB, rightC, leftSide, rightSide};
 
     for (int i = 0; i < 8; i++)
     {
-      if recentState[i] != buttonPressed[i]
+      if (recentState[i] != buttonPressed[i])
       {
-        if buttonPressed[i] == true
+        if (buttonPressed[i] == true)
         {
           Keyboard.press(keyBinds[i]);
         }
@@ -198,7 +200,7 @@ void loop() {
       }
     }
 
-    recentState[] = buttonPressed[];
+    memcpy(buttonPressed, recentState, 8);
 
                     //  // Set XInput buttons
                     //  XInput.setButton(BUTTON_X, rightA);
